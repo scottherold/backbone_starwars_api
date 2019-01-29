@@ -15,12 +15,10 @@ var StarshipCollection = Backbone.Collection.extend({
     parse: function(data){
         return data.results;
     },
-    falconChecker: function() {
-        _.each(this.models, function(ship) {
-            if(ship.get("Name") === "Millennium Falcon") {
-                ship.set({cost_in_credits: "priceless"});
-            }
-        });
+    falconChecker: function(ship) {
+        if(ship.get("name") === "Millennium Falcon") {
+            ship.set({cost_in_credits: "priceless"});
+        }
     }
     
 });
@@ -30,6 +28,6 @@ var starships = new StarshipCollection();
 // Fetch the complete list of Starships
 starships.fetch().then(function(){
     console.log(starships.models);
-    _.invoke(starships.models, starships.falconChecker, starships.StarshipModel);
+    starships.models.forEach(starships.falconChecker);
     console.log(starships.findWhere({name: "Millennium Falcon"}));
 });
